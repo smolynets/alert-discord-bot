@@ -42,7 +42,7 @@ def check_active_alerts(alerts):
     for alert in alerts:
         last_updated =  datetime.strptime(alert["lastUpdate"], "%Y-%m-%dT%H:%M:%SZ")
         print(last_updated)
-        if (current_time - last_updated) <= timedelta(hours=4):
+        if (current_time - last_updated) <= timedelta(hours=30):
             reg_alerts += 1
     return reg_alerts
 
