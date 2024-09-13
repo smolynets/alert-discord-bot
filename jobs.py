@@ -9,6 +9,11 @@ import pytz
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 ALERT_API_TOKEN = os.getenv("ALERT_API_TOKEN")
 
+print("12#######################################")
+print(DISCORD_WEBHOOK_URL)
+print(ALERT_API_TOKEN)
+print("12#######################################")
+
 
 alert_api_url = 'https://api.ukrainealarm.com/api/v3/alerts'
 check_region_list = [
