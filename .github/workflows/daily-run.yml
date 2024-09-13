@@ -24,7 +24,6 @@ jobs:
 
     - name: Run script
       env:
-        DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-        CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
-        alert_api_token: ${{ secrets.alert_api_token }}
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        ALERT_API_TOKEN: ${{ secrets.ALERT_API_TOKEN }}
       run: python jobs.py
