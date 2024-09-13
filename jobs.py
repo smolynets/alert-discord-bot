@@ -12,7 +12,7 @@ ALERT_API_TOKEN = os.getenv("ALERT_API_TOKEN")
 
 alert_api_url = 'https://api.ukrainealarm.com/api/v3/alerts'
 check_region_list = [
-    "Сумська область", "Рівненська область", "Тернопільська область", "Івано-Франківська область"
+    "Волинська область", "Рівненська область", "Тернопільська область", "Івано-Франківська область"
 ]
 
 ukraine_tz = pytz.timezone('Europe/Kiev')
@@ -42,7 +42,7 @@ def check_active_alerts(alerts):
     for alert in alerts:
         last_updated =  datetime.strptime(alert["lastUpdate"], "%Y-%m-%dT%H:%M:%SZ")
         print(last_updated)
-        if (current_time - last_updated) <= timedelta(hours=8):
+        if (current_time - last_updated) <= timedelta(hours=1):
             reg_alerts += 1
     return reg_alerts
 
@@ -67,8 +67,6 @@ def call_regions():
                 send_to_discord_webhook(
                     f"{current_time} - за останню годину тривога почалася в таких областях: {', '.join(region_messages)}"
                 )
-            else:
-                send_to_discord_webhook(f"{current_time} - немає тривог")
         except ValueError:
             print("Response content is not valid JSON:", response.text)
     else:
