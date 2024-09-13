@@ -12,8 +12,13 @@ ALERT_API_TOKEN = os.getenv("ALERT_API_TOKEN")
 
 alert_api_url = 'https://api.ukrainealarm.com/api/v3/alerts'
 check_region_list = [
-    "Київська область", "Волинська область", "Рівненська область", "Тернопільська область", "Івано-Франківська область"
+    "Київська область", "Волинська область", "Рівненська область", "Тернопільська область", "Сумська область"
 ]
+
+ukraine_tz = pytz.timezone('Europe/Kiev')
+utc_now = datetime.utcnow()
+ukraine_time = pytz.utc.localize(utc_now).astimezone(ukraine_tz)
+current_time = ukraine_time.replace(tzinfo=None, microsecond=0)
 
 
 # discord logic
@@ -33,15 +38,11 @@ def send_to_discord_webhook(message):
 
 # alert api logic
 def check_active_alerts(alerts):
-    ukraine_tz = pytz.timezone('Europe/Kiev')
-    utc_now = datetime.utcnow()
-    ukraine_time = pytz.utc.localize(utc_now).astimezone(ukraine_tz)
-    current_time = ukraine_time.replace(tzinfo=None, microsecond=0)
     reg_alerts = 0
     for alert in alerts:
         last_updated =  datetime.strptime(alert["lastUpdate"], "%Y-%m-%dT%H:%M:%SZ")
         print(last_updated)
-        if (current_time - last_updated) <= timedelta(hours=2):
+        if (current_time - last_updated) <= timedelta(hours=4):
             reg_alerts += 1
     return reg_alerts
 
@@ -62,15 +63,13 @@ def call_regions():
                     if reg_alerts:
                         region_messages.append(region["regionName"])
             print(region_messages)
-            time_now = datetime.now()
-            formatted_now_time = time_now.strftime('%Y-%m-%d %H:%M')
             if region_messages:
                 send_to_discord_webhook(
-                    f"{formatted_now_time} - за останні 2 години тривога почалася в таких областях: {', '.join(region_messages)}"
+                    f"{current_time} - за останні 2 години тривога почалася в таких областях: {', '.join(region_messages)}"
                 )
                 bot_instance.run()
             else:
-                send_to_discord_webhook(f"{formatted_now_time} - немає тривог")
+                send_to_discord_webhook(f"{current_time} - немає тривог")
         except ValueError:
             print("Response content is not valid JSON:", response.text)
     else:
