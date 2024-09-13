@@ -67,7 +67,6 @@ def call_regions():
                 send_to_discord_webhook(
                     f"{current_time} - за останні 2 години тривога почалася в таких областях: {', '.join(region_messages)}"
                 )
-                bot_instance.run()
             else:
                 send_to_discord_webhook(f"{current_time} - немає тривог")
         except ValueError:
