@@ -12,7 +12,7 @@ ALERT_API_TOKEN = os.getenv("ALERT_API_TOKEN")
 
 alert_api_url = 'https://api.ukrainealarm.com/api/v3/alerts'
 check_region_list = [
-    "Київська область", "Волинська область", "Рівненська область", "Тернопільська область", "Сумська область"
+    "Київська область", "Волинська область", "Рівненська область", "Тернопільська область", "Івано-Франківська область"
 ]
 
 ukraine_tz = pytz.timezone('Europe/Kiev')
@@ -42,7 +42,7 @@ def check_active_alerts(alerts):
     for alert in alerts:
         last_updated =  datetime.strptime(alert["lastUpdate"], "%Y-%m-%dT%H:%M:%SZ")
         print(last_updated)
-        if (current_time - last_updated) <= timedelta(hours=30):
+        if (current_time - last_updated) <= timedelta(hours=2):
             reg_alerts += 1
     return reg_alerts
 
