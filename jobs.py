@@ -68,6 +68,9 @@ def call_regions():
             data = response.json()
             for region in data:
                 if region["regionName"] in check_region_list:
+                    print("71######################")
+                    print(region["activeAlerts"])
+                    print("71######################")
                     reg_alerts = check_active_alerts(region["activeAlerts"])
                     if reg_alerts:
                         region_messages.append(region["regionName"])
