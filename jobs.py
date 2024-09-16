@@ -67,6 +67,7 @@ def call_regions():
         try:
             data = response.json()
             for region in data:
+                print("70######################")
                 if region["regionName"] in check_region_list:
                     print("71######################")
                     print(region["activeAlerts"])
@@ -74,7 +75,9 @@ def call_regions():
                     reg_alerts = check_active_alerts(region["activeAlerts"])
                     if reg_alerts:
                         region_messages.append(region["regionName"])
+            print("71#######################")
             print(region_messages)
+            print("71#######################")
             if region_messages:
                 send_to_discord_webhook(
                     f"{current_time} - за останню годину тривога почалася в таких областях: {', '.join(region_messages)}"
