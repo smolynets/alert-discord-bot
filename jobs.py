@@ -12,8 +12,7 @@ ALERT_API_TOKEN = os.getenv("ALERT_API_TOKEN")
 
 alert_api_url = 'https://api.ukrainealarm.com/api/v3/alerts'
 check_region_list = [
-    "Волинська область", "Рівненська область", "Тернопільська область", "Івано-Франківська область", "Луганська область"
-]
+    "Волинська область", "Рівненська область", "Тернопільська область", "Івано-Франківська область"
 
 ukraine_tz = pytz.timezone('Europe/Kiev')
 utc_now = datetime.utcnow()
