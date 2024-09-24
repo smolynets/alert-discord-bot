@@ -12,7 +12,7 @@ ALERT_API_TOKEN = os.getenv("ALERT_API_TOKEN")
 
 alert_api_url = 'https://api.ukrainealarm.com/api/v3/alerts'
 check_region_list = [
-    "Волинська область", "Рівненська область", "Тернопільська область", "Івано-Франківська область"
+    "Волинська область", "Рівненська область", "Тернопільська область", "Івано-Франківська область", "Луганська область"
 ]
 
 ukraine_tz = pytz.timezone('Europe/Kiev')
@@ -40,19 +40,7 @@ def send_to_discord_webhook(message):
 def check_active_alerts(alerts):
     reg_alerts = 0
     for alert in alerts:
-        last_updated =  datetime.strptime(alert["lastUpdate"], "%Y-%m-%dT%H:%M:%SZ")
-        print("44###################")
-        print(current_time)
-        print(last_updated)
-        print("44###################")
-        if (current_time - last_updated) <= timedelta(hours=1):
-            print("49###################")
-            print((current_time - last_updated) <= timedelta(hours=1))
-            print("49###################")
-            reg_alerts += 1
-        else:
-            reg_alerts += 1
-            print("55###################")
+        reg_alerts += 1
     return reg_alerts
 
 
@@ -67,17 +55,10 @@ def call_regions():
         try:
             data = response.json()
             for region in data:
-                print("70######################")
                 if region["regionName"] in check_region_list:
-                    print("71######################")
-                    print(region["activeAlerts"])
-                    print("71######################")
                     reg_alerts = check_active_alerts(region["activeAlerts"])
                     if reg_alerts:
                         region_messages.append(region["regionName"])
-            print("78#######################")
-            print(region_messages)
-            print("78#######################")
             if region_messages:
                 send_to_discord_webhook(
                     f"{current_time} - за останню годину тривога почалася в таких областях: {', '.join(region_messages)}"
